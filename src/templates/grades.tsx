@@ -3,6 +3,7 @@ import { Link } from 'gatsby'
 import { useQuery } from '@tanstack/react-query'
 import { TCourse } from '../types'
 import { api } from '../lib/services/api'
+import { SEO } from '../components/seo'
 
 interface Props {
    pageContext: { curso: TCourse }
@@ -145,6 +146,9 @@ export default function GradeCurricularPage({ pageContext }: Props) {
    )
 }
 
+
 export const Head = ({ pageContext }: Props) => (
-   <title>Grade Curricular — {pageContext.curso.title}</title>
+   <SEO title={`Grade Curricular — ${pageContext.curso.title}`}
+      description='Regista-te para o exame de admissão. Escolhe a tua unidade académica e preenche o formulário de candidatura.'
+   />
 )

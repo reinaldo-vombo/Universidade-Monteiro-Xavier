@@ -8,6 +8,7 @@ import {
   TDepartemant,
   TDepartemantProps,
   TSigleFaculty,
+  TSiglePayment,
 } from '../../types';
 import { fetchJSON } from './fetch';
 
@@ -16,17 +17,37 @@ const BASE_URL = process.env.GATSBY_APP_API_BASE_URL;
 
 export const api = {
   departamentos: {
-    list: (): Promise<TDepartemantProps> =>
-      fetch(`${BASE_URL}/academic-department`).then((r) => r.json()),
-    byId: (id: string): Promise<TDepartemant> =>
-      fetch(`${BASE_URL}/academic-department/${id}`).then((r) => r.json()),
-    byFaculty: (id: string): Promise<any> =>
-      fetch(`${BASE_URL}/academic-department?academicFacultyId=${id}`).then(
-        (r) => r.json(),
-      ),
+    list: async (): Promise<TDepartemant[]> => {
+      const res = await fetch(`${BASE_URL}/academic-department`);
+      if (!res.ok) {
+        throw new Error('Erro na API');
+      }
+      const result = await res.json();
+      return result.data;
+    },
+
+    byId: async (id: string): Promise<TDepartemant> => {
+      const res = await fetch(`${BASE_URL}/academic-department/${id}`);
+      if (!res.ok) {
+        throw new Error('Erro na API');
+      }
+      const result = await res.json();
+      return result.data;
+    },
+
+    byFaculty: async (id: string): Promise<any> => {
+      const res = await fetch(
+        `${BASE_URL}/academic-department?academicFacultyId=${id}`,
+      );
+      if (!res.ok) {
+        throw new Error('Erro na API');
+      }
+      const result = await res.json();
+      return result.data;
+    },
   },
   unidades: {
-    list: async () => {
+    list: async (): Promise<TAcademicFaculty[]> => {
       const res = await fetch(`${BASE_URL}/academic-faculty`);
 
       if (!res.ok) {
@@ -35,6 +56,8 @@ export const api = {
       const result = await res.json();
       return result.data;
     },
+    // list: (): Promise<TAcademicFaculty[]> =>
+    //   fetch(`${BASE_URL}/academic-faculty`).then((r) => r.json()),
     withCourse: async (): Promise<TBulkAcademicFaculty[]> => {
       const res = await fetch(`${BASE_URL}/academic-faculty/with-courses`);
       if (!res.ok) {
@@ -59,14 +82,30 @@ export const api = {
       fetch(`${BASE_URL}/course/${slug}`).then((r) => r.json()),
   },
   exames: {
-    // registos: (): Promise<TAdmitionExame[]> =>
-    //   fetch(`${BASE_URL}/admission-exame`).then((r) => r.json()),
-    registos: (params?: { exameId?: string; search?: string }) => {
+    registos: async (params?: {
+      exameId?: string;
+      search?: string;
+      passed?: boolean | null;
+      page?: number;
+      limit?: number;
+    }) => {
       const qs = new URLSearchParams();
       if (params?.exameId) qs.set('exameId', params.exameId);
       if (params?.search) qs.set('search', params.search);
+      if (params?.passed !== null && params?.passed !== undefined)
+        qs.set('passed', String(params.passed));
       const query = qs.toString() ? `?${qs}` : '';
-      return fetchJSON(`/admission-exame/cadidates${query}`);
+      qs.set('page', String(params?.page ?? 1));
+      qs.set('limit', String(params?.limit ?? 25));
+      const res = await fetch(`${BASE_URL}/admission-exame/cadidates${query}`);
+
+      if (!res.ok) {
+        throw new Error('Erro na API');
+      }
+      const result = await res.json();
+
+      return result;
+      // return fetchJSON(`/admission-exame/cadidates${query}`);
     },
     byExameId: (exameId: string): Promise<TAdmitionExame> =>
       fetch(`${BASE_URL}/admission-exame/${exameId}`).then((r) => r.json()),
@@ -76,6 +115,20 @@ export const api = {
   contas: {
     all: async (): Promise<TBankAccounte[]> => {
       const res = await fetch(`${BASE_URL}/bank-accountes`);
+
+      if (!res.ok) {
+        throw new Error('Erro na API');
+      }
+      const result = await res.json();
+
+      return result.data;
+    },
+  },
+  pagamentos: {
+    byId: async (canditateId: string): Promise<TSiglePayment> => {
+      const res = await fetch(
+        `${BASE_URL}/payment/admition-exame/${canditateId}`,
+      );
 
       if (!res.ok) {
         throw new Error('Erro na API');

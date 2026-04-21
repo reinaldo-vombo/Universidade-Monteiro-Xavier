@@ -16,14 +16,17 @@ import { ScrollArea } from '../ui/scroll-area';
 import { Separator } from '../ui/separator';
 import { TAcademicFaculty, TBankAccounte } from '../../types';
 import { toast } from 'sonner';
+import AdmitionExamePaymentForm from '../../forms/adimition-payment';
 type PaymentCardProps = {
    type: string;
    disabled?: boolean;
-   data: TAcademicFaculty | undefined
+   amount: string
+   paymentId: string
+   candidateId: string
    selectedAccount: TBankAccounte | null
 };
 const now = new Date()
-export function PaymentCard({ type, disabled, data, selectedAccount }: PaymentCardProps) {
+export function PaymentCard({ type, disabled, amount, candidateId, paymentId, selectedAccount }: PaymentCardProps) {
    const logo = type === 'INVOICE' ? '/express.webp' : type === 'REFERENCE' ? '/icons8-payment-48.png' : '/icons8-qrcode-24.png'
    const toggle = () => {
       if (disabled) {
@@ -66,7 +69,7 @@ export function PaymentCard({ type, disabled, data, selectedAccount }: PaymentCa
                }}
                className='relative h-auto w-125 border border-gray-100 bg-white'
             >
-               <ScrollArea className='h-[90vh]' type='scroll'>
+               <ScrollArea className='h-175' type='scroll'>
                   <div className='relative p-6'>
                      <div className='flex justify-center py-10'>
                         <MorphingDialogImage
@@ -90,10 +93,7 @@ export function PaymentCard({ type, disabled, data, selectedAccount }: PaymentCa
                               <li>Exame de Acesso - {now.getFullYear()}</li>
                            </ul>
                            <ul>
-                              <li>{data?.title}</li>
-                           </ul>
-                           <ul>
-                              <li>{data?.examePrice?.amount ?? 0}</li>
+                              <li>{amount}</li>
                            </ul>
                            <div>
                               <h3 className="text-lg font-medium mb-2">
@@ -110,11 +110,10 @@ export function PaymentCard({ type, disabled, data, selectedAccount }: PaymentCa
 
                            </div>
                            <div>
-                              <h3 className="text-lg font-medium mb-2">
-                                 Comprovativo de pagamento
-                              </h3>
-
-                              <input type="file" className="w-full" />
+                              <AdmitionExamePaymentForm
+                                 candidateId={candidateId}
+                                 paymentId={paymentId}
+                              />
                            </div>
                         </div>
                      </div>

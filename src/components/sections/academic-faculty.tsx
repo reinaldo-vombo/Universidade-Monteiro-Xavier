@@ -2,6 +2,7 @@ import React from 'react'
 import { TAcademicFaculty } from '../../types'
 import ImageMaskReveal from '../scroll-reveal'
 import { FACULTY } from '../../constants/data/unidades'
+import { data } from 'autoprefixer'
 
 type TProps = {
    data: TAcademicFaculty[] | undefined
@@ -16,7 +17,9 @@ const normalize = (text: string) => {
       .trim();
 };
 
-const AcademicFaculty = ({ data: apiData }: TProps) => {
+const AcademicFaculty = ({ data }: TProps) => {
+
+
    const facultyMap = FACULTY.reduce((acc, item) => {
       const key = normalize(item.title);
       acc[key] = item;
@@ -24,7 +27,7 @@ const AcademicFaculty = ({ data: apiData }: TProps) => {
    }, {} as Record<string, any>);
 
 
-   const merged: any = apiData?.map((item) => {
+   const merged: any = data?.map((item) => {
       const key = normalize(item.title);
 
       const local = facultyMap[key];

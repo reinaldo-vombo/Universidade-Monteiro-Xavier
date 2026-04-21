@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { TAcademicFaculty, TBankAccounte } from '../../types'
+import { TBankAccounte } from '../../types'
 import Accounts from './accounts';
 import { PaymentCard } from './payment-card';
 type TProps = {
    accounts: TBankAccounte[] | undefined;
-   academicFculty: TAcademicFaculty | undefined
    exameId: string | undefined
+   amount: string
+   candidateId: string
+   paymentId: string
 }
 const PAYMENT_TYPE = ['INVOICE', 'REFERENCE', 'QR']
-const PaymentSelect = ({ academicFculty, accounts, exameId }: TProps) => {
+const PaymentSelect = ({ accounts, exameId, amount, candidateId, paymentId }: TProps) => {
 
    const [selectedAccount, setselectedAccount] = useState<TBankAccounte | null>(null)
    const onchange = (account: TBankAccounte) => {
@@ -26,8 +28,10 @@ const PaymentSelect = ({ academicFculty, accounts, exameId }: TProps) => {
                      <PaymentCard
                         key={type}
                         selectedAccount={selectedAccount}
+                        amount={amount}
+                        candidateId={candidateId}
+                        paymentId={paymentId}
                         type={type}
-                        data={academicFculty}
                         disabled={isDisabled}
                      />
 
@@ -35,7 +39,11 @@ const PaymentSelect = ({ academicFculty, accounts, exameId }: TProps) => {
                );
             })}
          </div>
-         <Accounts accounts={accounts} onchange={onchange} selectedAccount={selectedAccount} />
+         <Accounts
+            accounts={accounts}
+            onchange={onchange}
+            selectedAccount={selectedAccount}
+         />
       </div>
    )
 }

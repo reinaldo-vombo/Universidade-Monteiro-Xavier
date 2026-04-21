@@ -134,7 +134,7 @@ const AdmitionExame = ({ data }: PageProps<QueryData>) => {
                            className="mt-10"
                         >
                            <Link
-                              to="/exames-de-acesso/cadastro"
+                              to="/exames-de-acesso/set-up"
                               className="inline-flex items-center gap-3 bg-[#0D0D0D] text-white
                                text-sm tracking-wide px-7 py-4 rounded-xl
                                hover:bg-[#0D0D0D]/80 transition-colors duration-300"

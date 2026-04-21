@@ -1,3 +1,4 @@
+const { EVENTS } = require('./src/constants/events.ts');
 // gatsby-node.js
 const API = process.env.GATSBY_APP_API_BASE_URL;
 // console.log(process.env.GATSBY_APP_API_BASE_URL);
@@ -28,13 +29,14 @@ exports.createSchemaCustomization = ({ actions }) => {
 exports.createPages = async ({ actions }) => {
   const { createPage } = actions;
 
-  const [departamentos, unidades, cursos, exameFase, registos] =
+  const [departamentos, unidades, cursos, exameFase, registos, bulkFacultys] =
     await Promise.all([
       fetchJSON('/academic-department'),
       fetchJSON('/academic-faculty'),
       fetchJSON('/course'),
       fetchJSON('/admission-exame/fases'),
       fetchJSON('/admission-exame'),
+      fetchJSON('/academic-faculty/with-courses'),
     ]);
 
   // ── Departamentos ──────────────────────────────────────
@@ -86,7 +88,7 @@ exports.createPages = async ({ actions }) => {
   });
   registos.forEach((registo) => {
     createPage({
-      path: `exames-de-acesso/registo/${registo.id}`,
+      path: `exames-de-acesso/registo/${registo.exameId}`,
       component: require.resolve('./src/templates/exame.tsx'),
       context: { registo },
     });
@@ -95,5 +97,24 @@ exports.createPages = async ({ actions }) => {
     path: 'exames-de-acesso',
     component: require.resolve('./src/templates/exames-info.tsx'),
     context: {}, // dados vêm da query GraphQL estática
+  });
+  createPage({
+    path: 'exames-de-acesso/set-up',
+    component: require.resolve('./src/templates/registration-setup.tsx'),
+    context: { bulkFacultys }, // dados vêm da query GraphQL estática
+  });
+  createPage({
+    path: 'eventos',
+    component: require.resolve('./src/templates/eventes.tsx'),
+    // context: { bulkFacultys },
+  });
+  EVENTS.forEach((event) => {
+    createPage({
+      path: `evento/${event.slug}`,
+      component: require.resolve('./src/templates/event-page.tsx'),
+      context: {
+        event, // 👈 envia tudo
+      },
+    });
   });
 };

@@ -12,7 +12,7 @@ import React, {
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
-import { useFullPageSnap } from '../../lib/hooks/useFullPageSnap'
+import { useFullPageSnap } from '../lib/hooks/useFullPageSnap'
 
 gsap.registerPlugin(ScrollTrigger)
 

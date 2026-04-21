@@ -1,5 +1,6 @@
 import {
   TPaymentMethod,
+  TPaymentStatus,
   TRegistrationStatus,
   TStatus,
   TYearLevel,
@@ -37,7 +38,7 @@ export type TBulkAcademicFaculty = {
   priceId: string | null;
 };
 export type TDepartemantProps = {
-  data: TDepartemant[];
+  data: TDepartemant[] | undefined;
 };
 export type TSigleFaculty = {
   data: TAcademicFaculty;
@@ -225,4 +226,28 @@ export type TBankAccounte = {
   iban: string;
   swift: number | null;
   entityCode: number | null;
+};
+export type TSiglePayment = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: TPaymentStatus;
+  currency: string;
+  paymentItems: {
+    id: string;
+    entityType: string;
+    amount: number;
+    description: string;
+  }[];
+  totalAmount: number;
+  extraAmount: number;
+  method: TPaymentMethod;
+  transactionRef: string | null;
+  payerName: string | null;
+  payerIban: string | null;
+  payerBank: string | null;
+  universityBankAccountId: string | null;
+  paidAt: Date | null;
+  ReceiptUrl: string | null;
+  canditateId: string;
 };

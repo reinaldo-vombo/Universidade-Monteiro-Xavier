@@ -1,70 +1,70 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUrlParams } from '../../../lib/hooks/use-url-params';
-import { TAcademicFaculty, TSigleFaculty } from '../../../types';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { api } from '../../../lib/services/api';
-import { PaymentCard } from '../../../components/layout/payment-card';
-import Accounts from '../../../components/layout/accounts';
 import PaymentSelect from '../../../components/layout/payment-select';
 import { SEO } from '../../../components/seo';
-
-type TProps = {
-   data: TAcademicFaculty
-}
+import Banner from '../../../components/layout/banner';
+import { useMediaQuery } from '../../../lib/hooks/use-media-query';
+import PaymentLayout from '../../../components/mobile/payment/payment-layout';
+import { navigate } from 'gatsby';
 
 const PaymentPage = () => {
+   const isDesktop = useMediaQuery("(min-width: 768px)");
+
+   // ⛔ evita hydration mismatch
+   const [mounted, setMounted] = useState(false);
+
+   useEffect(() => setMounted(true), []);
+
    const {
       values,
    } = useUrlParams({
       exameId: '',
-      academicFalcultyId: '',
+      candidateId: '',
+      paymentId: '',
+      totalAmout: ''
    })
+   const { candidateId, exameId, paymentId, totalAmout } = values;
 
-   // const { data: faculty, isPending } = useQuery<TSigleFaculty>({
-   //    queryKey: ['academic-faculty', values.exameId, values.academicFalcultyId],
-   //    queryFn: () => api.unidades.byId(values.academicFalcultyId),
-   //    staleTime: 1000 * 60 * 2,
-   //    placeholderData: (prev) => prev,
-   // })
-   const results = useQueries({
-      queries: [
-         {
-            queryKey: ['academic-faculty', values.exameId, values.academicFalcultyId],
-            queryFn: () => api.unidades.byId(values.academicFalcultyId),
-            staleTime: 1000 * 60 * 10,
-         },
-         {
-            queryKey: ['bank-accounts'],
-            queryFn: () => api.contas.all(),
-            staleTime: 1000 * 60 * 10,
-         },
-      ],
+   if (!candidateId || !exameId || !paymentId || !totalAmout) {
+      navigate('/exames-de-acesso/listas')
+   }
+
+   const { data: accounts } = useQuery({
+      queryKey: ['bank-accounts'],
+      queryFn: () => api.contas.all(),
+      staleTime: 1000 * 60 * 10,
    });
-   const [academicFculty, accounts] = results;
    // console.log({ academicFculty, accounts });
-
+   if (!mounted) return null;
 
    return (
-      <div>
-         {/* HERO */}
-         <div className="bg-[#0D0D0D] px-6 md:px-20 pt-36 pb-16">
-            <h1 className="text-5xl md:text-7xl font-light text-white">
-               Pagamento para Exames de Acesso - 2025
-            </h1>
+      <div className='min-h-dvh'>
+         <Banner title='Pagamento para Exames de Acesso - 2025' description=' Faça o pagamento para poder realizar o exame.' />
 
-            <p className="text-white/50 mt-6 text-lg max-w-xl">
-               Faça o pagamento para poder realizar o exame.
-            </p>
-         </div>
+         {isDesktop ? (
+            <div className="p-6 md:p-20">
+               <p className="mb-6 text-lg">
+                  Selecione um método de pagamento
+               </p>
+               <PaymentSelect
+                  paymentId={values.paymentId}
+                  amount={totalAmout}
+                  candidateId={candidateId}
+                  accounts={accounts}
+                  exameId={exameId} />
+            </div>
 
-         {/* PAYMENT METHODS */}
-         <div className="p-6 md:p-20">
-            <p className="mb-6 text-lg">
-               Selecione um método de pagamento
-            </p>
+         ) : (<PaymentLayout
+            accounts={accounts}
+            exameId={exameId}
+            paymentId={paymentId}
+            amount={totalAmout}
+            candidateId={candidateId}
+         />
+         )}
 
-            <PaymentSelect academicFculty={academicFculty.data} accounts={accounts.data} exameId={values.exameId} />
-         </div>
       </div>
    );
 };

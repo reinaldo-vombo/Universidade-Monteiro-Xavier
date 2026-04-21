@@ -61,7 +61,7 @@ export default function Navbar() {
    return (
       <>
          {/* Header fixo — sempre transparente */}
-         <header className="fixed top-0 left-0 right-0 z-50 h-20 flex items-center px-6 md:px-12">
+         <header className="fixed hidden top-0 left-0 right-0 z-50 h-20 md:flex items-center px-6 md:px-12">
 
             {/* Logo */}
             <div className="flex-1">

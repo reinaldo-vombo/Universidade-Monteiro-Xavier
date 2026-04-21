@@ -59,6 +59,7 @@ export default function RegistoDetalhePage({ pageContext }: Props) {
       staleTime: 1000 * 60 * 2, // 2 min — estado de pagamento muda mais
    })
 
+
    const statusStyle = STATUS_STYLE[registo.status]
    const pagamentos = registo.ExamePayment ?? []
    const totalPago = pagamentos
@@ -113,10 +114,10 @@ export default function RegistoDetalhePage({ pageContext }: Props) {
                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                   <Field label="Fase" value={registo.fase?.name ?? '—'} />
                   <Field label="Data do Exame" value={formatDate(registo.exameDate)} />
-                  <Field label="Fase (ID)" value={registo.exameId} mono />
+                  <Field label="Seu ID" value={registo.exameId} mono />
                   {registo.building && <Field label="Edifício" value={registo.building} />}
                   {registo.room && <Field label="Sala" value={registo.room} />}
-                  <Field label="Faculdade (ID)" value={registo.academicFalcultyId} mono />
+                  <Field label="Horario" value='Manha - 11:00 - 12:00' mono />
                </div>
             </SectionCard>
 
@@ -168,7 +169,12 @@ export default function RegistoDetalhePage({ pageContext }: Props) {
                ) : (
                   <div className="space-y-4">
                      {pagamentos.map(p => (
-                        <PagamentoRow key={p.id} pagamento={p} />
+                        <PagamentoRow
+                           key={p.id}
+                           pagamento={p}
+                           falcultyId={registo.academicFalcultyId}
+                           exameId={registo.exameId}
+                        />
                      ))}
 
                      {/* Total */}
@@ -222,11 +228,12 @@ function Field({ label, value, mono = false }: { label: string; value: string; m
    )
 }
 
-function PagamentoRow({ pagamento }: { pagamento: TExamePayment }) {
+function PagamentoRow({ pagamento, exameId, falcultyId }: { pagamento: TExamePayment, falcultyId: string, exameId: string, }) {
    const isPaid = pagamento.status === 'APROVE'
+   const paymentUrl = `/exames-de-acesso/pagamento?academicFalcultyId=${falcultyId}&exameId=${exameId}&candidateId=${pagamento.canditateId}&paymentId=${pagamento.id}&totalAmout=${pagamento.totalAmount}`
 
    return (
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4
+      <Link to={paymentUrl} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4
                     p-4 rounded-xl bg-[#0D0D0D]/3 border border-[#0D0D0D]/5">
          <div className="flex items-center gap-3">
             <span className={`w-2 h-2 rounded-full shrink-0
@@ -263,7 +270,7 @@ function PagamentoRow({ pagamento }: { pagamento: TExamePayment }) {
                </span>
             </div>
          </div>
-      </div>
+      </Link>
    )
 }
 

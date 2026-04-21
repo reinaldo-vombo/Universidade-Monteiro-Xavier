@@ -1,14 +1,12 @@
 import * as React from "react"
 import { type HeadFC, type PageProps } from "gatsby"
 import { SEO } from "../components/seo"
-import { ParallaxSection } from "../components/ParallaxSection"
 import { HeroSection } from "../components/sections/hero-section"
 import { AboutSection } from "../components/sections/about-section"
-import { useQueries, useQuery } from "@tanstack/react-query"
+import { useQueries } from "@tanstack/react-query"
 import { api } from "../lib/services/api"
 import AcademicFaculty from "../components/sections/academic-faculty"
 import Departments from "../components/sections/departments"
-import Footer from "../components/sections/footer"
 
 const IndexPage: React.FC<PageProps> = () => {
   const results = useQueries({
@@ -29,6 +27,7 @@ const IndexPage: React.FC<PageProps> = () => {
   // Desestruturar resultados
   const [facultyQuery, departmentsQuery] = results;
 
+
   const isLoading = results.some(q => q.isLoading);
   const isError = results.some(q => q.isError);
 
@@ -39,9 +38,9 @@ const IndexPage: React.FC<PageProps> = () => {
     <>
       <HeroSection />
       <AboutSection />
-      <AcademicFaculty data={facultyQuery.data.data} />
-      <Departments data={departmentsQuery.data && departmentsQuery.data.data} />
-      <Footer />
+      <AcademicFaculty data={facultyQuery.data} />
+      <Departments data={departmentsQuery.data} />
+
     </>
 
   )

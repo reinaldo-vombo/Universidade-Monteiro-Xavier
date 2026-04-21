@@ -4,15 +4,18 @@ import React from 'react'
 import { api } from '../../../lib/services/api';
 import { TAcademicFaculty } from '../../../types';
 import AdmitionExameForm from '../../../forms/adimition-registration';
+import { useUrlParams } from '../../../lib/hooks/use-url-params';
 type TProps = {
    data: TAcademicFaculty[]
 }
 const RegisterPage = () => {
-   const { data: result, isPending } = useQuery<TProps>({
-      queryKey: ['facultys',],
-      queryFn: () => api.unidades.list(),
-      staleTime: 1000 * 60 * 2,
+   const {
+      values,
+   } = useUrlParams({
+      academicFalcultyId: '',
    })
+
+
    return (
       <div className=''>
          <div className="bg-[#0D0D0D] h-1/2 px-6 md:px-20 pt-36 pb-16">
@@ -32,7 +35,7 @@ const RegisterPage = () => {
             </p>
          </div>
          <div className='rounded-md border-card mt-16 p-4'>
-            <AdmitionExameForm data={result?.data} />
+            <AdmitionExameForm academicFalcultyId={values.academicFalcultyId} />
          </div>
       </div>
    )

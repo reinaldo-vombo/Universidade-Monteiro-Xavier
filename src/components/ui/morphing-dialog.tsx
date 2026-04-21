@@ -133,17 +133,23 @@ function MorphingDialogTrigger({
       </motion.button>
    );
 }
-
+const sizeVariants = {
+   default: "w-125 max-w-full",
+   md: "w-[500px] max-w-full",
+   lg: "w-[800px] max-w-full",
+};
 export type MorphingDialogContentProps = {
    children: React.ReactNode;
    className?: string;
    style?: React.CSSProperties;
+   size?: "default" | "md" | "lg";
 };
 
 function MorphingDialogContent({
    children,
    className,
    style,
+   size = "default",
 }: MorphingDialogContentProps) {
    const { setIsOpen, isOpen, uniqueId, triggerRef } = useMorphingDialog();
    const containerRef = useRef<HTMLDivElement>(null!);
@@ -210,7 +216,7 @@ function MorphingDialogContent({
       <motion.div
          ref={containerRef}
          layoutId={`dialog-${uniqueId}`}
-         className={cn('overflow-hidden', className)}
+         className={cn('overflow-hidden', sizeVariants[size], className)}
          style={style}
          role='dialog'
          aria-modal='true'

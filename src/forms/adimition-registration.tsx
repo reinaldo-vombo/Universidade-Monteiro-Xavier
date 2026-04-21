@@ -7,24 +7,16 @@ import { toast } from "sonner"
 import { Form, FormControl, FormDescription, FormField, FormMessage, FormLabel, FormItem } from "../components/ui/form"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
-import {
-   Select,
-   SelectContent,
-   SelectItem,
-   SelectTrigger,
-   SelectValue
-} from "../components/ui/select"
 import { createadmitionExameZodSchema } from '../lib/validation/registation'
 import { FileDropzone } from '../components/file-dropzone'
-import { TAcademicFaculty } from '../types'
 import { clientEnv } from '../config/env'
+import { navigate } from 'gatsby'
 
 type TProps = {
-   data: TAcademicFaculty[] | undefined
+   academicFalcultyId: string
 }
 
-export default function AdmitionExameForm({ data }: TProps) {
-   console.log(clientEnv.GATSBY_API_BASE_URL);
+export default function AdmitionExameForm({ academicFalcultyId }: TProps) {
 
    const form = useForm<z.infer<typeof createadmitionExameZodSchema>>({
       resolver: zodResolver(createadmitionExameZodSchema,),
@@ -32,8 +24,8 @@ export default function AdmitionExameForm({ data }: TProps) {
          biNumber: '',
          email: '',
          phoneNumber: '',
-         academicFalcultyId: '',
-         gradeDeclarationUrl: []
+         academicFalcultyId: academicFalcultyId || 'd',
+         gradeDeclarationFile: []
       }
    })
    const { handleSubmit, control } = form;
@@ -46,9 +38,9 @@ export default function AdmitionExameForm({ data }: TProps) {
          formData.append("phoneNumber", values.phoneNumber);
          formData.append("academicFalcultyId", values.academicFalcultyId);
 
-         if (values.gradeDeclarationUrl) {
-            values.gradeDeclarationUrl.forEach((file, index) => {
-               formData.append("gradeDeclarationUrl", file);
+         if (values.gradeDeclarationFile) {
+            values.gradeDeclarationFile.forEach((file, index) => {
+               formData.append("gradeDeclarationFile", file);
                // ou:
                // formData.append(`files[${index}]`, file);
             });
@@ -57,19 +49,25 @@ export default function AdmitionExameForm({ data }: TProps) {
          for (let pair of formData.entries()) {
             console.log(pair[0], pair[1]);
          }
-         const result = await fetch(`${process.env.GATSBY_API_BASE_URL}/admition-exame`, {
+         const result = await fetch(`${clientEnv.GATSBY_API_BASE_URL}/admission-exame`, {
             method: "POST",
             body: formData,
          });
          if (!result.ok) {
-            toast.warning("Falha ao enviar o formulário");
-
+            // toast.warning("Falha ao enviar o formulário");
+            console.error('Falha ao enviar o formulário')
          }
+         const res = await result.json()
+         if (!res.success) {
+            toast.error(res.message)
+            return
+         }
+         navigate(`/exames-de-acesso/pagamento?exameId=${res.data.exameId}`)
 
          toast.success("Formulário preparado com sucesso!");
       } catch (error) {
          console.error("Form submission error", error);
-         toast.error("Failed to submit the form. Please try again.");
+         // toast.error("Ocorreu um erro ao submeter o formulario por favor tente de novo");
       }
    }
    const loading = form.formState.isSubmitting
@@ -88,7 +86,7 @@ export default function AdmitionExameForm({ data }: TProps) {
                   <FormItem className="w-full">
                      <FormLabel>Número do bi</FormLabel>
                      <FormControl>
-                        <Input {...field} placeholder="Digite o BI" />
+                        <Input {...field} className='bg-white' placeholder="Digite o BI" />
                      </FormControl>
                      <FormDescription> O seu nome sera preachido atomaticamento atravez do seu bi</FormDescription>
                      <FormMessage />
@@ -102,7 +100,7 @@ export default function AdmitionExameForm({ data }: TProps) {
                   <FormItem className="w-full">
                      <FormLabel>Número de telefone</FormLabel>
                      <FormControl>
-                        <Input {...field} placeholder="(+244) 9*******" />
+                        <Input {...field} className='bg-white' placeholder="(+244) 923456789" />
                      </FormControl>
                      <FormDescription></FormDescription>
                      <FormMessage />
@@ -116,7 +114,7 @@ export default function AdmitionExameForm({ data }: TProps) {
                   <FormItem className="w-full">
                      <FormLabel>Email</FormLabel>
                      <FormControl>
-                        <Input {...field} placeholder="exemplo@gmail.com" />
+                        <Input {...field} className='bg-white' placeholder="exemplo@gmail.com" />
                      </FormControl>
                      <FormDescription></FormDescription>
                      <FormMessage />
@@ -125,48 +123,21 @@ export default function AdmitionExameForm({ data }: TProps) {
             />
             <FormField
                control={control}
-               name='gradeDeclarationUrl'
-               render={({ field }) => (
+               name='gradeDeclarationFile'
+               render={({ field, fieldState }) => (
                   <FormItem className="w-full">
-                     <FormLabel>Email</FormLabel>
+                     <FormLabel>Declaração de nota</FormLabel>
                      <FormControl>
-
                         <FileDropzone
                            value={field.value}
                            onChange={field.onChange}
-                           multiple
+                           accept="documents"
+                           maxSizeMB={5}
+                           label="Declaração de notas"
+                           error={fieldState.error?.message}
                         />
                      </FormControl>
                      <FormDescription></FormDescription>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
-            <FormField
-               control={control}
-               name='academicFalcultyId'
-               render={({ field }) => (
-                  <FormItem className="w-full">
-                     <FormLabel>Email</FormLabel>
-                     <FormControl>
-                        <Select
-                           value={field.value}
-                           onValueChange={field.onChange}
-                        >
-                           <SelectTrigger>
-                              <SelectValue placeholder="Selecione uma unidade" />
-                           </SelectTrigger>
-                           <SelectContent>
-                              {data ? data.map((item) => (
-                                 <SelectItem key={item.id} value={item.id}>{item.title}</SelectItem>
-                              )) : (
-                                 <SelectItem value='n'>Sem unidades</SelectItem>
-
-                              )}
-                           </SelectContent>
-                        </Select>
-                     </FormControl>
-                     <FormDescription> Selecione a unidade no qual o seu curso pertence</FormDescription>
                      <FormMessage />
                   </FormItem>
                )}

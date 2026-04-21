@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import FlotingSection from '../layout/floting-section'
 
 export function HeroSection() {
 
-
+   const sectionRef = useRef<HTMLElement>(null)
    return (
-      <section className="flex relative flex-col items-center justify-center h-full text-center text-white px-8">
+      <section ref={sectionRef} id='hero' className="flex relative flex-col items-center justify-center h-full text-center text-white px-8">
          <video
             autoPlay
             loop
@@ -17,6 +18,7 @@ export function HeroSection() {
             <h1 className="text-[clamp(3rem,8vw,7rem)] font-medium leading-none">
                {process.env.GATSBY_APP_UNIVERCITY_NAME}
             </h1>
+            <FlotingSection sectionRef={sectionRef} />
          </div>
       </section>
    )

@@ -26,6 +26,8 @@ export interface ImageMaskRevealProps {
 }
 
 export default function ImageMaskReveal({ sections, bgColors }: ImageMaskRevealProps) {
+
+
    const containerRef = useRef<HTMLDivElement>(null);
    const lenisRef = useRef<Lenis | null>(null);
 
