@@ -1,8 +1,11 @@
 import {
+  TOfferedCourseStatus,
   TPaymentMethod,
   TPaymentStatus,
   TRegistrationStatus,
   TStatus,
+  TStudentStatus,
+  TStudentType,
   TYearLevel,
 } from './enum';
 
@@ -138,6 +141,36 @@ export type TAdmitionExame = {
   };
   ExamePayment: TExamePayment[];
 };
+export type TStudent = {
+  status: TStudentStatus;
+  academicSemesterId: string;
+  id: string;
+  email: string | null;
+  password: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  studentId: string;
+  academicFacultyId: string;
+  studentType: TStudentType;
+  firstName: string;
+  middleName: string | null;
+  lastName: string;
+  profileImage: string | null;
+  contactNo: string | null;
+  gender: string;
+  isWorker: boolean;
+  yearLevel: TYearLevel;
+  dateOfBirth: Date | null;
+  address: string | null;
+  permanentAddress: string | null;
+  academicDepartmentId: string;
+  admissionRegistrationId: string | null;
+  shiftId: number;
+};
+export interface IStudent extends TStudent {
+  exameId: string;
+}
 export type TDiscipline = {
   name: string;
   id: string;
@@ -250,4 +283,76 @@ export type TSiglePayment = {
   paidAt: Date | null;
   ReceiptUrl: string | null;
   canditateId: string;
+};
+export type OfferedCourseSection = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  title: string;
+  priceId: string | null;
+  yearLevel: TYearLevel;
+  shiftId: number;
+  maxCapacity: number;
+  currentlyEnrolledStudent: number;
+  semesterRegistrationId: string;
+  offeredCourseId: string;
+  offeredCourse: {
+    course: {
+      id: string;
+      title: string;
+    };
+    semesterRegistration: {
+      academicSemester: {
+        id: string;
+        title: string;
+      };
+    };
+    OfferedCourseDiscipline: {
+      discipline: {
+        name: string;
+        id: string;
+      };
+    }[];
+  };
+  price: {
+    id: string;
+    amount: number;
+  } | null;
+};
+export type OfferedCourse = {
+  id: string;
+  status: TOfferedCourseStatus;
+  academicDepartmentId: string;
+  semesterRegistrationId: string;
+  courseId: string;
+  academicDepartment: {
+    id: string;
+    title: string;
+  };
+  course: {
+    id: string;
+    title: string;
+  };
+  semesterRegistration: {
+    academicSemester: {
+      id: string;
+      title: string;
+      year: string;
+    };
+  };
+  offeredCourseSections: {
+    shift: {
+      name: string;
+    };
+    OfferedCourseDiscipline: {
+      discipline: {
+        name: string;
+        id: string;
+      };
+    };
+    title: string;
+    id: string;
+    yearLevel: TYearLevel;
+    maxCapacity: number;
+  }[];
 };

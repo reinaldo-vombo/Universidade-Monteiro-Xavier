@@ -1,4 +1,5 @@
 import {
+  OfferedCourse,
   TAcademicFaculty,
   TAdmitionExame,
   TAdmitionExameFase,
@@ -35,10 +36,14 @@ export const api = {
       return result.data;
     },
 
-    byFaculty: async (id: string): Promise<any> => {
-      const res = await fetch(
-        `${BASE_URL}/academic-department?academicFacultyId=${id}`,
-      );
+    byFaculty: async (params?: {
+      academicFacultyId?: string;
+    }): Promise<any> => {
+      const qs = new URLSearchParams();
+      if (params?.academicFacultyId)
+        qs.set('academicFacultyId', params.academicFacultyId);
+      const query = qs.toString() ? `?${qs}` : '';
+      const res = await fetch(`${BASE_URL}/academic-department${query}`);
       if (!res.ok) {
         throw new Error('Erro na API');
       }
@@ -108,7 +113,9 @@ export const api = {
       // return fetchJSON(`/admission-exame/cadidates${query}`);
     },
     byExameId: (exameId: string): Promise<TAdmitionExame> =>
-      fetch(`${BASE_URL}/admission-exame/${exameId}`).then((r) => r.json()),
+      fetch(`${BASE_URL}/admission-exame/cadidate/${exameId}`).then((r) =>
+        r.json(),
+      ),
     fases: (): Promise<TAdmitionExameFase> =>
       fetch(`${BASE_URL}/admission-exame/fases`).then((r) => r.json()),
   },
@@ -129,6 +136,18 @@ export const api = {
       const res = await fetch(
         `${BASE_URL}/payment/admition-exame/${canditateId}`,
       );
+
+      if (!res.ok) {
+        throw new Error('Erro na API');
+      }
+      const result = await res.json();
+
+      return result.data;
+    },
+  },
+  cadeiras: {
+    all: async (): Promise<OfferedCourse> => {
+      const res = await fetch(`${BASE_URL}/offered-course`);
 
       if (!res.ok) {
         throw new Error('Erro na API');

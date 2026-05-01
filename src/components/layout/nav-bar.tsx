@@ -10,6 +10,7 @@ const links = [
    { label: 'Cursos', to: '/cursos' },
    { label: 'Departamentos', to: '/departamentos' },
    { label: 'Exames', to: '/exames-de-acesso' },
+   { label: 'Eventos', to: '/eventos' },
    { label: 'Contactos', to: '/contactos' },
 ]
 

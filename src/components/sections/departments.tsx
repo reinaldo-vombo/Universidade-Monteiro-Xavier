@@ -26,7 +26,7 @@ const Departments = ({ data }: TDepartemantProps) => {
       offset: ['start start', 'end end']
    })
    return (
-      <div ref={container}>
+      <div ref={container} className='py-25'>
          <div className="container">
             <p className="text-xs tracking-[0.2em] opacity-60 mb-4 uppercase">Departamentos/Cursos</p>
             <h2 className="text-[clamp(2rem,5vw,4rem)] font-medium mb-12">

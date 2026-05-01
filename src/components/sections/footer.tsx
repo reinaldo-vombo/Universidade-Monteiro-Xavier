@@ -29,7 +29,7 @@ const NAV = [
     links: [
       { label: 'Exames de acesso', to: '/exames-de-acesso' },
       { label: 'Fases dos exames', to: '/exames-de-acesso/fases-dos-exames' },
-      { label: 'Registos', to: '/exames-de-acesso/registos' },
+      { label: 'Registos', to: '/exames-de-acesso/lista' },
       { label: 'Propinas', to: '/propinas' },
     ],
   },

@@ -102,7 +102,7 @@ export const EVENTS = [
   {
     id: 'evento-5',
     title: 'Jornadas Científicas',
-    slug: '',
+    slug: 'jornadas-científicas',
     date: '2026-04-07T17:00:00',
     category: 'Investigação',
     thumbnail: '/events/event-5.jpg',

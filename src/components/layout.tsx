@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import Navbar from './layout/nav-bar'
 import Footer from './sections/footer'
+import ToolbarDynamic from './mobile/tab/tab-nav'
 type TProps = {
    children: ReactNode
 }
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: TProps) {
          <main className='bg-[#F7F5F0] relative'>
             {children}
          </main>
+         <ToolbarDynamic />
          <Footer />
       </>
    )

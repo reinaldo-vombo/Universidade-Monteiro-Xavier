@@ -4,12 +4,12 @@ import { EVENTS } from '../constants/events'
 import { formatDate } from '../lib/helpers/date'
 import EventsCards from '../components/layout/events'
 import { useQueryParams } from '../lib/hooks/use-query-params'
+import { SEO } from '../components/seo'
 
 const Eventes = () => {
    const events = EVENTS
    const event = events[0]
    const { search } = useQueryParams()
-   console.log('hey', search);
 
    return (
       <div className='space-y-9'>
@@ -19,23 +19,20 @@ const Eventes = () => {
             </h1>
          </div>
          <div className="container">
-
             <div>
                <div className='grid grid-cols-12 gap-8 mb-10'>
-                  <div className="col-span-8">
+                  <div className="col-span-12 md:col-span-8">
                      <img
                         className='rounded-4xl w-full h-130 object-cover'
                         src={event.thumbnail}
                         width={400}
                         height={400}
                         alt={event.title} />
-
                   </div>
-                  <div className='space-y-6 col-span-4'>
+                  <div className='space-y-6 text-center md:text-left col-span-12 md:col-span-4'>
                      {/* <span>{formatDate(event.date)}</span> */}
                      <span>{event.date}</span>
                      <h2 className='uppercase text-4xl tracking-[0.3em] font-medium'>{event.title}</h2>
-
                   </div>
                </div>
                <EventsFilters />
@@ -48,3 +45,4 @@ const Eventes = () => {
 }
 
 export default Eventes
+export const Head = () => <SEO title='Eventos' />

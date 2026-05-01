@@ -7,6 +7,8 @@ import { useQueries } from "@tanstack/react-query"
 import { api } from "../lib/services/api"
 import AcademicFaculty from "../components/sections/academic-faculty"
 import Departments from "../components/sections/departments"
+import LifeInCampus from "../components/sections/life-in-campus"
+import Events from "../components/sections/events"
 
 const IndexPage: React.FC<PageProps> = () => {
   const results = useQueries({
@@ -40,6 +42,8 @@ const IndexPage: React.FC<PageProps> = () => {
       <AboutSection />
       <AcademicFaculty data={facultyQuery.data} />
       <Departments data={departmentsQuery.data} />
+      <LifeInCampus />
+      <Events />
 
     </>
 

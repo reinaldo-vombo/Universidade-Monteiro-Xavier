@@ -4,6 +4,7 @@ import { Button } from '../ui/button'
 import { ChevronDownIcon, Search } from 'lucide-react'
 import { Input } from '../ui/input'
 import { useQueryParams } from '../../lib/hooks/use-query-params'
+import { ComboboxBasic } from './drop-dwon'
 
 const EventsFilters = () => {
    const { search, setSearch } = useQueryParams()
@@ -11,25 +12,11 @@ const EventsFilters = () => {
 
    return (
       <div className='flex items-center justify-between gap-4 mb-10'>
-         <div className='flex items-center gap-10'>
+         <div className='flex items-center gap-10 flex-col md:flex-row'>
             <div className='rounded-lg border-card'>
-               <Collapsible className="rounded-md data-[state=open]:bg-muted">
-                  <CollapsibleTrigger asChild>
-                     <Button variant="ghost" className="group w-full">
-                        Product details
-                        <ChevronDownIcon className="ml-auto group-data-[state=open]:rotate-180" />
-                     </Button>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm">
-                     <div>
-                        This panel can be expanded or collapsed to reveal additional
-                        content.
-                     </div>
-                     <Button size="xs">Learn More</Button>
-                  </CollapsibleContent>
-               </Collapsible>
+               <ComboboxBasic />
             </div>
-            <div className='relative'>
+            <div className='relative hidden md:block'>
                <Input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -37,7 +24,7 @@ const EventsFilters = () => {
                <Search className='absolute top-2 right-2 text-neutral-500 size-4' />
             </div>
          </div>
-         <button>MOSTRAR EVENTOS PASSADOS</button>
+         <button className='hidden md:block'>MOSTRAR EVENTOS PASSADOS</button>
       </div>
    )
 }

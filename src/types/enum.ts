@@ -13,6 +13,13 @@ export type TStatus = 'APROVE' | 'PENDING' | 'DENIDE';
 export type TPaymentMethod = 'INVOICE' | 'EXPRESS';
 export type TRegistrationStatus = 'CONFIRMED' | 'WAITING_LIST' | 'CANCELLED';
 export type TStudentType = 'NORMAL' | 'CADEIRANTE' | 'BOLSEIRO';
+export type TStudentStatus =
+  | 'ACTIVE'
+  | 'INACTIVE'
+  | 'BLOCKED_FINANCIAL'
+  | 'RETAINED'
+  | 'GRADUATED'
+  | 'PENDING_SECTION_ASSIGNMENT';
 export type TMarkStatus =
   | 'DISPENSADO'
   | 'ADMITIDO'
@@ -43,3 +50,6 @@ export type TTransferGradePolicy =
   | 'LOSE_ALL'
   | 'KEEP_EQUIVALENTS'
   | 'ADMIN_DECIDES';
+export type SubmitState = 'idle' | 'loading' | 'success' | 'error';
+
+export type TOfferedCourseStatus = 'ACTIVE' | 'CANCELLED' | 'FINISHED';

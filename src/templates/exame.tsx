@@ -53,8 +53,8 @@ function formatCurrency(amount: number, currency = 'AOA') {
 // ── Page ───────────────────────────────────────────────────────────
 export default function RegistoDetalhePage({ pageContext }: Props) {
    const { data: registo } = useQuery({
-      queryKey: ['registo', pageContext.registo.id],
-      queryFn: () => api.exames.byExameId(pageContext.registo.id),
+      queryKey: ['registo', pageContext.registo.exameId],
+      queryFn: () => api.exames.byExameId(pageContext.registo.exameId),
       initialData: pageContext.registo,
       staleTime: 1000 * 60 * 2, // 2 min — estado de pagamento muda mais
    })

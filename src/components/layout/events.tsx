@@ -1,11 +1,8 @@
 import React from 'react'
-import { formatDate } from '../../lib/helpers/date';
 import { Tag } from 'lucide-react';
-import { useUrlParams } from '../../lib/hooks/use-url-params';
 import { useDebounce } from '../../lib/hooks/use-debounce';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useQueryParams } from '../../lib/hooks/use-query-params';
-import { Link } from 'gatsby';
+import { useNavigateWithTransition } from '../../lib/hooks/use-navigate-with-transition';
 type TProps = {
    data: {
       id: string;
@@ -19,17 +16,9 @@ type TProps = {
    }[]
    search: string
 }
-function navigateWithTransition(to: string) {
-   if (!document.startViewTransition) {
-      window.location.href = to
-      return
-   }
-   document.startViewTransition(() => {
-      window.location.href = to
-   })
-}
 const EventsCards = ({ data, search }: TProps) => {
    // 🔎 filtro (case insensitive)
+   const navigateWithTransition = useNavigateWithTransition();
    const debouncedSearch = useDebounce(search, 400);
    const filteredData = data.filter((item) => {
 
@@ -38,7 +27,7 @@ const EventsCards = ({ data, search }: TProps) => {
          .includes(debouncedSearch.toLowerCase());
    });
    return (
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
          <AnimatePresence mode="popLayout">
             {filteredData.length > 0 ? (
                filteredData.map((event) => (
@@ -51,10 +40,13 @@ const EventsCards = ({ data, search }: TProps) => {
                      transition={{ duration: 0.3 }}
                      className="space-y-4"
                   >
-                     <Link to={`/evento/${event.slug}`} className='block'>
+                     <div role="link"
+                        tabIndex={0}
+                        onClick={() => navigateWithTransition(`/evento/${event.slug}`)}
+                        onKeyDown={(e) => e.key === 'Enter' && navigateWithTransition(`/evento/${event.slug}`)}
+                        className="block cursor-pointer">
                         <div className='overflow-hidden' style={{
-                           // view-transition-name único por card — CSS inline porque Tailwind não suporta dinâmico
-                           viewTransitionName: `evento-image-${event.slug}`,
+                           viewTransitionName: `evento-image-${event.id}`,
                         } as React.CSSProperties}>
                            <img
                               className="rounded-lg object-cover h-72 w-full transition-transform duration-500"
@@ -64,7 +56,7 @@ const EventsCards = ({ data, search }: TProps) => {
 
                         </div>
 
-                     </Link>
+                     </div>
 
                      <span>{event.date as string}</span>
                      {/* <span>{formatDate(event.date)}</span> */}

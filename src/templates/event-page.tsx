@@ -1,6 +1,8 @@
 import { Link } from 'gatsby'
 import { CalendarIcon, LocationEditIcon } from 'lucide-react'
 import React from 'react'
+import { SEO } from '../components/seo'
+import Stack from '../components/ui/stack-card'
 interface Evento {
   id: string
   title: string
@@ -8,6 +10,7 @@ interface Evento {
   date: string
   endDate?: string
   location: string
+  slug: string
   address?: string
   thumbnail: string
   gallery?: string[]
@@ -16,11 +19,11 @@ interface Props {
   pageContext: { event: Evento }
 }
 const now = new Date()
+const images = ['/unidades/ciencias.jpg', '/unidades/direito.jpg', '/unidades/economia.jpg', '/unidades/engenharia.jpg', '/unidades/jornalismo.jpg']
 const EventsPage = ({ pageContext }: Props) => {
   const evento = pageContext.event;
-  console.log(evento);
 
-  const gallery = evento.gallery ?? []
+  const gallery = evento.gallery ?? images
   const formattedDate = new Date(now).toLocaleDateString('pt-PT', {
     weekday: 'long', day: '2-digit', month: 'long', year: 'numeric',
   })
@@ -28,55 +31,33 @@ const EventsPage = ({ pageContext }: Props) => {
     hour: '2-digit', minute: '2-digit',
   })
   return (
-    <main className="min-h-screen bg-[#F7F5F0]">
-
-      {/* ── Banner ──────────────────────────────────────────────── */}
-      <div className="relative h-[70vh] overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            viewTransitionName: `evento-image-${evento.id}`,
-          } as React.CSSProperties}
-        >
-          <img
-            src={evento.thumbnail}
-            alt={evento.title}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Overlay escuro no fundo para o texto */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
-
-        {/* Back link */}
-        <div className="absolute top-0 left-0 right-0 p-6 md:p-12 z-10">
-          <Link
-            to="/eventos"
-            className="inline-flex items-center gap-2 text-xs tracking-widest
-                       text-white/60 uppercase hover:text-white transition-colors"
+    <div className="min-h-screen bg-[#F7F5F0]">
+      <div className="container grid grid-cols-12 gap-8 overflow-hidden">
+        <div className="md:col-span-7 col-span-12">
+          <div
+            className=""
+            style={{
+              viewTransitionName: `evento-image-${evento.id}`,
+            } as React.CSSProperties}
           >
-            <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-              <path d="M13 5H1M1 5L5 1M1 5L5 9" stroke="currentColor"
-                strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Todos os eventos
-          </Link>
-        </div>
-
-        {/* Título sobre o banner */}
-        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 z-10">
-          <div className="max-w-4xl">
-            <p className="text-xs tracking-[0.25em] text-white/50 uppercase mb-3">
-              Evento
-            </p>
-            <h1 className="text-4xl md:text-6xl font-light text-white leading-tight tracking-tight">
-              {evento.title}
-            </h1>
+            <img
+              src={evento.thumbnail}
+              alt={evento.title}
+              className="h-125 w-full object-cover rounded-b-2xl md:rounded-2xl"
+            />
           </div>
         </div>
+        <div className="md:col-span-5 col-span-12 space-y-4">
+          <p className="text-sm font-medium text-center lg:text-left text-[#0D0D0D] capitalize">
+            {formattedDate}
+          </p>
+          <h1 className="text-4xl md:text-6xl text-center lg:text-left font-light leading-tight tracking-[0.3em]">
+            {evento.title}
+          </h1>
+        </div>
+
       </div>
 
-      {/* ── Corpo ───────────────────────────────────────────────── */}
       <div className="max-w-6xl mx-auto px-6 md:px-16 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
 
@@ -100,21 +81,23 @@ const EventsPage = ({ pageContext }: Props) => {
                 <p className="text-xs tracking-[0.2em] text-[#0D0D0D]/35 uppercase mb-6">
                   Galeria
                 </p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {gallery.map((img, i) => (
-                    <div
-                      key={i}
-                      className={`overflow-hidden rounded-xl bg-[#0D0D0D]/5
-                                  ${i === 0 ? 'col-span-2 md:col-span-2 aspect-[16/9]' : 'aspect-square'}`}
-                    >
+                <div className='size-74 md:size-127'>
+                  <Stack
+                    randomRotation={false}
+                    sensitivity={200}
+                    sendToBackOnClick={true}
+                    cards={images.map((src, i) => (
                       <img
-                        src={img}
-                        alt={`${evento.title} — foto ${i + 1}`}
-                        className="w-full h-full object-cover hover:scale-105
-                                   transition-transform duration-500 cursor-zoom-in"
+                        key={i}
+                        src={src}
+                        alt={`card-${i + 1}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
-                    </div>
-                  ))}
+                    ))}
+                    autoplay={false}
+                    autoplayDelay={3000}
+                    pauseOnHover={false}
+                  />
                 </div>
               </div>
             )}
@@ -127,7 +110,7 @@ const EventsPage = ({ pageContext }: Props) => {
               <div
                 id="disqus_thread"
                 className="bg-white border border-[#0D0D0D]/8 rounded-2xl p-8
-                           min-h-[200px] flex items-center justify-center"
+                           min-h-50 flex items-center justify-center"
               >
                 <p className="text-sm text-[#0D0D0D]/30">
                   A carregar comentários...
@@ -175,11 +158,12 @@ const EventsPage = ({ pageContext }: Props) => {
           </aside>
         </div>
       </div>
-    </main>
+    </div>
   )
 }
 
 export default EventsPage
+export const Head = ({ pageContext }: Props) => <SEO title={`${pageContext.event.title}`} />
 function InfoCard({ icon, label, children }: {
   icon: React.ReactNode; label: string; children: React.ReactNode
 }) {
