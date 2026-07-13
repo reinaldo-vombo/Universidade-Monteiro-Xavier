@@ -9,3 +9,10 @@ export function formatDate(date: Date) {
 
   return `${month.charAt(0).toUpperCase() + month.slice(1)} ${day}, ${year} |  ${time}`;
 }
+export function formatCurrency(amount: number, currency = 'AOA') {
+  return new Intl.NumberFormat('pt-PT', {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 0,
+  }).format(amount);
+}

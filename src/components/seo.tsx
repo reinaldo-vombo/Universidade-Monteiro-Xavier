@@ -34,7 +34,7 @@ export const SEO = ({ title, description, keyWords, pathname, article }: SEOProp
    const seo = {
       title: `${title || ''} - ${meta.title}`,
       description: description || meta.description,
-      image: `${process.env.GATSBY_APP_BASE_URL}${meta.siteImage}`,
+      image: `${process.env.GATSBY_APP_BASE_URL}/${meta.siteImage}`,
       url: `${meta.siteUrl}${pathname || ``}`,
       twitterUsername: meta.social.twitter,
    }
@@ -100,7 +100,7 @@ export const SEO = ({ title, description, keyWords, pathname, article }: SEOProp
          <meta name="twitter:description" content={seo.description} />
          <meta name="twitter:image" content={seo.image} />
          <meta name="twitter:creator" content={seo.twitterUsername} />
-         <meta name="copyright" content="braline" />
+         <meta name="copyright" content="ux" />
          <meta name="robots" content="index,follow" />
          <link rel="icon" href='/favicon.ico' />
          <script type="application/ld+json">

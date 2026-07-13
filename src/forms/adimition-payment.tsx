@@ -49,7 +49,7 @@ export default function AdmitionExamePaymentForm({ candidateId, paymentId }: TPr
          for (let pair of formData.entries()) {
             // console.log(pair[0], pair[1]);
          }
-         const url = `${clientEnv.GATSBY_API_BASE_URL}/payments/invoice/${paymentId}/candidate/${candidateId}`;
+         const url = `${clientEnv.GATSBY_API_BASE_URL}/payments/admition-exame/invoice/${paymentId}/candidate/${candidateId}`;
 
          const result = await fetch(url, {
             method: "POST",
@@ -73,7 +73,8 @@ export default function AdmitionExamePaymentForm({ candidateId, paymentId }: TPr
          setTimeout(() => setSubmitState('idle'), 3000)
       }
    }
-   const loading = form.formState.isSubmitting
+   // console.log(form.getValues());
+
 
    return (
       <Form {...form}>

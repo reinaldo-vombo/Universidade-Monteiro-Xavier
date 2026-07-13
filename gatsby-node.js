@@ -29,19 +29,17 @@ exports.createSchemaCustomization = ({ actions }) => {
 exports.createPages = async ({ actions }) => {
   const { createPage } = actions;
 
-  const [departamentos, unidades, cursos, exameFase, registos, bulkFacultys] =
+  const [departamentos, unidades, cursos, exameFase, bulkFacultys, sections] =
     await Promise.all([
       fetchJSON('/academic-department'),
       fetchJSON('/academic-faculty'),
       fetchJSON('/course'),
       fetchJSON('/admission-exame/fases'),
-      fetchJSON('/admission-exame'),
       fetchJSON('/academic-faculty/with-courses'),
+      fetchJSON('/offered-course-section'),
     ]);
 
-  // ── Departamentos ──────────────────────────────────────
   departamentos.forEach((dep) => {
-    //  console.log('node', dep);
     createPage({
       path: `/departamentos/${dep.id}`,
       component: require.resolve('./src/templates/departments.tsx'),
@@ -54,8 +52,6 @@ exports.createPages = async ({ actions }) => {
     context: exameFase,
   });
 
-  // ── Unidades académicas ────────────────────────────────
-  // Para cada unidade busca os departamentos dela
   await Promise.all(
     unidades.map(async (unidade) => {
       const deps = departamentos.filter(
@@ -70,38 +66,34 @@ exports.createPages = async ({ actions }) => {
     }),
   );
 
-  // ── Cursos + Grade Curricular ──────────────────────────
   cursos.forEach((curso) => {
-    // Página principal do curso
     createPage({
-      path: `/cursos/${id}`,
+      path: `/cursos/${curso.id}`,
       component: require.resolve('./src/templates/course.tsx'),
       context: { curso },
     });
 
-    // Página da grade curricular
     createPage({
       path: `/exames/grade-curricular`,
       component: require.resolve('./src/templates/curiclume-grade.tsx'),
       context: { curso },
     });
   });
-  registos.forEach((registo) => {
-    createPage({
-      path: `exames-de-acesso/registo/${registo.exameId}`,
-      component: require.resolve('./src/templates/exame.tsx'),
-      context: { registo },
-    });
+
+  createPage({
+    path: '/propinas',
+    component: require.resolve('./src/templates/tutium.tsx'),
+    context: { sections },
   });
   createPage({
     path: 'exames-de-acesso',
     component: require.resolve('./src/templates/exames-info.tsx'),
-    context: {}, // dados vêm da query GraphQL estática
+    context: {},
   });
   createPage({
     path: 'exames-de-acesso/set-up',
     component: require.resolve('./src/templates/registration-setup.tsx'),
-    context: { bulkFacultys }, // dados vêm da query GraphQL estática
+    context: { bulkFacultys },
   });
   createPage({
     path: 'eventos',
@@ -113,7 +105,7 @@ exports.createPages = async ({ actions }) => {
       path: `evento/${event.slug}`,
       component: require.resolve('./src/templates/event-page.tsx'),
       context: {
-        event, // 👈 envia tudo
+        event,
       },
     });
   });

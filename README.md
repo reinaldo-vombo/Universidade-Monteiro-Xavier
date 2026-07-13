@@ -1,49 +1,159 @@
 <p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
+  <img src="./src/images/cover.png" alt="Universidade Monteiro Xavier">
 </p>
-<h1 align="center">
-  Gatsby Minimal TypeScript Starter
-</h1>
 
-## 🚀 Quick start
+# 🎓 Universidade Monteiro Xavier
 
-1.  **Create a Gatsby site.**
+Website institucional moderno desenvolvido para a **Universidade Monteiro Xavier**, com foco em apresentar a instituição, cursos, admissões e informações académicas através de uma interface moderna, responsiva e intuitiva.
 
-    Use the Gatsby CLI to create a new site, specifying the minimal TypeScript starter.
+## 📖 Sobre o Projeto
 
-    ```shell
-    # create a new Gatsby site using the minimal TypeScript starter
-    npm init gatsby -- -ts
-    ```
+A Universidade Monteiro Xavier é uma plataforma web criada para proporcionar uma experiência digital eficiente a estudantes, candidatos e visitantes.
 
-2.  **Start developing.**
+O objetivo do projeto é disponibilizar informações institucionais de forma clara, facilitar o processo de admissão e promover os cursos e serviços oferecidos pela universidade.
 
-    Navigate into your new site’s directory and start it up.
+---
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+## ✨ Funcionalidades
 
-3.  **Open the code and start customizing!**
+- Página inicial moderna
+- Apresentação da universidade
+- Lista de cursos
+- Página de admissões
+- Notícias e eventos
+- Contactos
+- Layout totalmente responsivo
+- Interface intuitiva
+- Alto desempenho
+- SEO otimizado
 
-    Your site is now running at http://localhost:8000!
+---
 
-    Edit `src/pages/index.tsx` to see your site update in real-time!
+## 🛠️ Tecnologias
 
-4.  **Learn more**
+- React
+- TypeScript
+- Gatsby
+- Tailwind CSS
+- Shadcn-ui
+- React query
+- React-hook-forms
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
+---
 
-## 🚀 Quick start (Netlify)
+## 📂 Estrutura do Projeto
 
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
+```
+src/
+│
+├── components/
+├── config/
+├── constants/
+├── error/
+├── forms/
+├── images/
+├── pages/
+├── lib/
+├── services/
+├── types/
+├── provider/
+├── styles/
+├── templates/
 
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
+```
+
+---
+
+## 🚀 Como executar
+
+### Clone o repositório
+
+```bash
+git clone https://github.com/seu-utilizador/universidade-monteiro-xavier.git
+```
+
+### Aceda ao projeto
+
+```bash
+cd universidade-monteiro-xavier
+```
+
+### Instale as dependências
+
+```bash
+npm install
+```
+
+### Execute o projeto
+
+```bash
+npm run dev
+```
+
+O projeto estará disponível em:
+
+```
+http://localhost:8000
+```
+
+---
+
+## 📦 Build para Produção
+
+```bash
+npm run build
+```
+
+Para visualizar a versão de produção localmente:
+
+```bash
+npm run preview
+```
+
+---
+
+## 🎨 Design
+
+O website foi desenvolvido seguindo princípios de:
+
+- Design moderno
+- Responsividade
+- Acessibilidade
+- Boa experiência do utilizador (UX)
+- Interface limpa (UI)
+
+---
+
+## 📱 Responsividade
+
+O sistema adapta-se aos seguintes dispositivos:
+
+- Desktop
+- Laptop
+- Tablet
+- Smartphone
+
+---
+
+## 🔮 Melhorias Futuras
+
+- Portal do estudante
+- Área do docente
+- Sistema de candidatura online
+- Pesquisa de cursos
+- Calendário académico
+- Biblioteca digital
+- Integração com sistema académico
+- Suporte multilíngue
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Reinaldo Vombo**
+
+---
+
+## 📄 Licença
+
+Este projeto destina-se ao desenvolvimento do website institucional da **Universidade Monteiro Xavier**.

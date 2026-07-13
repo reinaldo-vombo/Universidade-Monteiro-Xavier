@@ -8,7 +8,6 @@ interface Props {
 }
 
 export default function DepartamentoPage({ pageContext }: Props) {
-   // console.log(pageContext);
    const { data: dep } = useQuery({
       queryKey: ['departamento', pageContext.departamento.id],
       queryFn: () => api.departamentos.byId(pageContext.departamento.id),
@@ -16,12 +15,6 @@ export default function DepartamentoPage({ pageContext }: Props) {
       staleTime: 1000 * 60 * 10,
    })
    const data = dep as any;
-   // console.log(dep);
-
-
-
-
-
    return (
       <div className="min-h-screen bg-[#F7F5F0]">
 

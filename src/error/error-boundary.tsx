@@ -1,10 +1,10 @@
-// components/ErrorBoundary.tsx
+
 import React from 'react'
 
 interface Props {
    children: React.ReactNode
-   fallback?: React.ReactNode        // UI customizado
-   onError?: (error: Error) => void // logging, Sentry, etc
+   fallback?: React.ReactNode
+   onError?: (error: Error) => void
 }
 
 interface State {

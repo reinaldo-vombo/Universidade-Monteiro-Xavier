@@ -28,7 +28,7 @@ const config: GatsbyConfig = {
       'formação profissional',
       'universidade privada Angola',
     ],
-    siteImage: `og-image.jpg`,
+    siteImage: `og.jpg`,
     category: 'Educação',
     metadataBase: `https://www.monteiroxavier.ao`,
   },

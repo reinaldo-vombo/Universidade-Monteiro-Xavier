@@ -47,7 +47,6 @@ export default function AdmitionExameForm({ academicFalcultyId }: TProps) {
          }
 
          for (let pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
          }
          const result = await fetch(`${clientEnv.GATSBY_API_BASE_URL}/admission-exame`, {
             method: "POST",

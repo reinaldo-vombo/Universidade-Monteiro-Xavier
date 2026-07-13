@@ -9,7 +9,6 @@ interface Props {
 }
 const RegistrationSetup = ({ pageContext }: Props) => {
    const { bulkFacultys } = pageContext;
-   console.log(pageContext);
 
    const [selected, setSelected] = useState<string | null>(null)
    const [expandedDep, setExpandedDep] = useState<string | null>(null)

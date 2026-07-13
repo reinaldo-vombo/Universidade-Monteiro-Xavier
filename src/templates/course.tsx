@@ -26,14 +26,8 @@ export default function CursoPage({ pageContext }: Props) {
 
    return (
       <div className="min-h-screen bg-[#F7F5F0]">
-
          {/* Hero */}
-         <section className="relative h-[65vh] bg-[#0D0D0D] overflow-hidden flex items-end">
-            <img
-               src="/images/curso-bg.jpg"
-               alt=""
-               className="absolute inset-0 w-full h-full object-cover opacity-30"
-            />
+         <section className="relative md:h-1/2 bg-[#0D0D0D] overflow-hidden flex items-end">
             <div className="relative z-10 px-8 md:px-20 pb-16 w-full max-w-7xl mx-auto">
                <div className="flex flex-wrap gap-3 mb-6">
                   <span className="text-xs tracking-widest uppercase text-white/50 border border-white/20 px-3 py-1 rounded-full">

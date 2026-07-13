@@ -112,10 +112,18 @@ export const api = {
       return result;
       // return fetchJSON(`/admission-exame/cadidates${query}`);
     },
-    byExameId: (exameId: string): Promise<TAdmitionExame> =>
-      fetch(`${BASE_URL}/admission-exame/cadidate/${exameId}`).then((r) =>
-        r.json(),
-      ),
+    byExameId: async (exameId: string): Promise<TAdmitionExame> => {
+      const res = await fetch(
+        `${BASE_URL}/admission-exame/cadidate/${exameId}`,
+      );
+
+      if (!res.ok) {
+        throw new Error('Erro na API');
+      }
+      const result = await res.json();
+
+      return result.data;
+    },
     fases: (): Promise<TAdmitionExameFase> =>
       fetch(`${BASE_URL}/admission-exame/fases`).then((r) => r.json()),
   },

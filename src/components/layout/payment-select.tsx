@@ -24,9 +24,8 @@ const PaymentSelect = ({ accounts, exameId, amount, candidateId, paymentId }: TP
                   !exameId || selectedAccount === null || type === "REFERENCE" || type === "QR";
 
                return (
-                  <div className="h-12">
+                  <div className="h-12" key={type}>
                      <PaymentCard
-                        key={type}
                         selectedAccount={selectedAccount}
                         amount={amount}
                         candidateId={candidateId}

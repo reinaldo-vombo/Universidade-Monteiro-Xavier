@@ -118,7 +118,7 @@ export function RegistosTable({ data, meta, page, setPage, }: Props) {
                               {/* Link */}
                               <td className="pr-6 py-4">
                                  <Link
-                                    to={`/exames/registos/${r.id}`}
+                                    to={`/exames-de-acesso/candidato/${r.exameId}`}
                                     className="text-xs text-[#0D0D0D]/30 hover:text-[#0D0D0D]/70
                                    transition-colors whitespace-nowrap"
                                  >

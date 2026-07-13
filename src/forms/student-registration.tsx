@@ -64,7 +64,7 @@ const StudentRegistration = ({ data, departmentId }: TProps) => {
          }
 
          for (let pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
+            // console.log(pair[0], pair[1]);
          }
          const result = await registerStudent(formData)
          if (!result.success) {
